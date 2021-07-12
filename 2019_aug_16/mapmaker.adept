@@ -1,0 +1,153 @@
+
+#set mapmaker true
+pragma compiler_supports '2.2'
+
+import 'AABB.adept'
+import 'Bullet.adept'
+import 'Cannon.adept'
+import 'CannonBall.adept'
+import 'ControlScheme.adept'
+import 'GameAnimation.adept'
+import 'GameImageEx.adept'
+import 'Item.adept'
+import 'Player.adept'
+import 'Region.adept'
+import 'Spider.adept'
+import 'Swordfish.adept'
+import 'Optional.adept'
+import 'Theme.adept'
+
+import 'globals.adept'
+import 'draw.adept'
+import 'themes.adept'
+import 'where.adept'
+import 'inventory.adept'
+
+import '2.2/basics.adept'
+import '2.2/List.adept'
+import 'captain_prototype/captain.adept'
+
+func main {
+    unless captPrepare(), return
+    
+    captOnSetup(func &on_setup)
+    captOnStep(func &on_step, 60)
+    captOnKey(func &on_key)
+    captOnClick(func &on_click, true)
+    captOnDraw(func &on_draw)
+    captOnExit(func &on_exit)
+    
+    captAddTypical(64.0f, 64.0f)
+    captAddTypical(64.0f, 32.0f)
+    captAddTypical(128.0f, 128.0f)
+    
+    captCustomView(1920.0f, 1280.0f)
+    captStart('Tangent Map Maker', 960, 640, false)
+}
+
+mapmaker_zoom float
+mapmaker_grid bool
+
+func on_setup {
+    loadAssets()
+    loadThemes()
+    setupState()
+    mapmaker_zoom = 1.0f
+    mapmaker_grid = true
+}
+
+func on_key(key, scancode, action, mods int) {
+    if action != GLFW_PRESS, return
+    
+    if captKeyHeld(GLFW_KEY_SPACE) {
+        camera_movespeed float = 8.0f
+        
+        platform *Platform = getPlatformUnderCursor()
+        if platform {
+            if mods & GLFW_MOD_SHIFT {
+                if key == GLFW_KEY_W, platform.adjustPosition(0, -64)
+                if key == GLFW_KEY_S, platform.adjustPosition(0, 64)
+                if key == GLFW_KEY_A, platform.adjustPosition(-64, 0)
+                if key == GLFW_KEY_D, platform.adjustPosition(64, 0)
+            } else {
+                if key == GLFW_KEY_W, platform.adjustHeight(-64)
+                if key == GLFW_KEY_S, platform.adjustHeight(64)
+                if key == GLFW_KEY_A, platform.adjustWidth(-64)
+                if key == GLFW_KEY_D, platform.adjustWidth(64)
+            }
+        }
+        
+        return
+    }
+    
+    if key == GLFW_KEY_G, mapmaker_grid = !mapmaker_grid
+    if key == GLFW_KEY_Y, cycleThemes()
+}
+
+func on_click(x, y float, button int) {
+    createPlatform(getSnappedWorldX() as int, getSnappedWorldY() as int, 256, 256, DECOR_BUSH)
+}
+
+func getSnappedWorldX float {
+    captMouseViewPosition(undef x float, undef y float)
+    return cast float (cast int (x + camera_x) / 64 * 64)
+}
+
+func getSnappedWorldY float {
+    captMouseViewPosition(undef x float, undef y float)
+    return cast float (cast int (y + camera_y) / 64 * 64)
+}
+
+func getPlatformUnderCursor *Platform {
+    target_x int = getSnappedWorldX() as int
+    target_y int = getSnappedWorldY() as int
+    each Platform in platforms,
+        if it.collision.intersectingPoint(target_x, target_y),
+            return &it
+    return null
+}
+
+func on_step {
+    view_w float = 1920.0f / 960.0f * captFrameWidth() as float * mapmaker_zoom
+    view_h float = 1280.0f / 640.0f * captFrameHeight() as float * mapmaker_zoom
+    captCustomView(view_w, view_h)
+    
+    unless captKeyHeld(GLFW_KEY_SPACE) {
+        camera_movespeed float = 8.0f
+        if captKeyHeld(GLFW_KEY_W), camera_y -= camera_movespeed
+        if captKeyHeld(GLFW_KEY_S), camera_y += camera_movespeed
+        if captKeyHeld(GLFW_KEY_A), camera_x -= camera_movespeed
+        if captKeyHeld(GLFW_KEY_D), camera_x += camera_movespeed
+    }
+    
+    if captKeyHeld(GLFW_KEY_Q), mapmaker_zoom -= 0.005f
+    if captKeyHeld(GLFW_KEY_E), mapmaker_zoom += 0.005f
+    if mapmaker_zoom < 0.01f, mapmaker_zoom = 0.01f
+}
+
+func on_draw {
+    captClearColor(captColor(0.8f, 0.8f, 0.8f))
+
+    //captCustomView(1920.0f, 1280.0f) is to 960, 640
+    //as w, h is to ww wh
+    
+    // Draw sky
+    sky_shift = camera_x //cast float (glfwGetTime() * 1000.0f - accumulated_pause_time) / 100.0f % captViewWidth()
+    captDrawTexture(theme.sky, ceilf(0.0f - sky_shift), 0.0f - camera_y, 1920.0f, 1280.0f)
+    captDrawTexture(theme.sky, 0.0f - sky_shift + 1920.0f, 0.0f - camera_y, 1920.0f, 1280.0f)
+    
+    // Draw platforms
+    each Platform in platforms, drawPlatform(it)
+    
+    // Draw grid
+    if mapmaker_grid {
+        repeat captViewWidth() as usize / 64 + 1,
+            captDrawTexture(bullet, idx as float * 64.0f - camera_x as float % 64.0f, 0.0f, 4.0f, captViewHeight())
+        repeat captViewHeight() as usize / 64 + 1,
+            captDrawTexture(bullet, 0.0f, idx as float * 64.0f - camera_y as float % 64.0f, captViewWidth(), 4.0f)
+    }
+}
+
+func on_exit {
+    destroyAssets()
+}

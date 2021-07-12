@@ -1,0 +1,219 @@
+
+struct Region (collision AABB, visual AABB) {
+    func getX int = this.collision.x
+    func getY int = this.collision.y
+    func getMaxX int = this.collision.x + this.collision.w
+    func getMaxY int = this.collision.y + this.collision.h
+    func getVisualX int = this.visual.x
+    func getVisualY int = this.visual.y
+    func getVisualMaxX int = this.visual.x + this.visual.w
+    func getVisualMaxY int = this.visual.y + this.visual.h
+    func getWidth int = this.collision.w
+    func getHeight int = this.collision.h
+    func getVisualWidth int = this.visual.w
+    func getVisualHeight int = this.visual.h
+    
+    func adjustPosition(xAdjustment, yAdjustment int) {
+        this.collision.x += xAdjustment
+        this.collision.y += yAdjustment
+        this.visual.x += xAdjustment
+        this.visual.y += yAdjustment
+    }
+}
+
+func region(x, y, w, h int) Region {
+    region Region = undef
+    region.collision = AABB(x, y, w, h)
+    region.visual = region.collision
+    return region
+}
+
+func region(x, y, w, h, x2, y2, w2, h2 int) Region {
+    region Region = undef
+    region.collision = AABB(x, y, w, h)
+    region.visual = AABB(x2, y2, w2, h2)
+    return region
+}
+
+struct Platform (struct Region, decorations <Decoration> List) {
+    func adjustWidth(adjustment int) {
+        this.collision.w += adjustment
+        this.visual.w += adjustment
+    }
+    
+    func adjustHeight(adjustment int) {
+        this.collision.h += adjustment
+        this.visual.h += adjustment
+    }
+    
+    func adjustPosition(xAdjustment, yAdjustment int) {
+        this.collision.x += xAdjustment
+        this.collision.y += yAdjustment
+        this.visual.x += xAdjustment
+        this.visual.y += yAdjustment
+        
+        each Decoration in this.decorations {
+            &it as *Region.adjustPosition(xAdjustment, yAdjustment)
+        }
+    }
+}
+
+struct Lake (struct Region)
+struct Bridge (struct Region)
+struct Portal (struct Region)
+struct Decoration (struct Region, texture CaptTexture)
+struct ItemSpawn (struct Region, item Item)
+struct PortalEnabler (struct Region, collected bool)
+
+func platform(x, y, w, h int) Platform {
+    platform POD Platform
+    platform.collision = AABB(x, y, w, h)
+    platform.visual = AABB(x, y, w, h)
+    return platform
+}
+
+func lake(x, y, w, h int) Lake {
+    lake Lake = undef
+    lake.collision = AABB(x, y, w, h)
+    lake.visual = AABB(x, y, w, h)
+    return lake
+}
+
+func bridge(x, y, w int) Bridge {
+    bridge Bridge = undef
+    bridge.collision = AABB(x, y, w, 4)
+    bridge.visual = AABB(x, y, w, 4)
+    return bridge
+}
+
+func portal(x, y int) Portal {
+    portal Portal = undef
+    portal.collision = AABB(x + 48, y + 64, 32, 64)
+    portal.visual = AABB(x, y, 128, 128)
+    return portal
+}
+
+func decoration(texture CaptTexture, x, y, w, h int) Decoration {
+    decor Decoration = undef
+    decor.collision = AABB(x, y, w, h)
+    decor.visual = AABB(x, y, w, h)
+    decor.texture = texture
+    return decor
+}
+
+func itemSpawn(item Item, x, y, w, h int) ItemSpawn {
+    spawn ItemSpawn = undef
+    spawn.collision = AABB(x, y, w, h)
+    spawn.visual = AABB(x, y, w, h)
+    spawn.item = item
+    return spawn
+}
+
+func portalEnabler(x, y, w, h int) PortalEnabler {
+    enabler PortalEnabler = undef
+    enabler.collision = AABB(x, y, w, h)
+    enabler.visual = AABB(x, y, w, h)
+    enabler.collected = false
+    return enabler
+}
+
+struct Particle (struct Region, animation GameAnimation){
+    func update bool {
+        if this.animation.currentFrame == this.animation.length - 1, return true
+        this.animation.update()
+        return false
+    }
+    
+    func now CaptTexture {
+        return this.animation.now()
+    }
+}
+
+func particle(sourceAnimation GameAnimation, x, y, w, h int) Particle {
+    particle Particle = undef
+    particle.collision = AABB(x, y, w, h)
+    particle.visual = AABB(x, y, w, h)
+    particle.animation = sourceAnimation.newInstance()
+    return particle
+}
+
+DECOR_NONE == 0
+DECOR_BUSH == 1
+DECOR_FLOWERA == 2
+DECOR_FLOWERB == 3
+DECOR_ROCKA == 4
+DECOR_ROCKB == 5
+DECOR_MUSHROOMA == 6
+DECOR_MUSHROOMB == 7
+DECOR_STUMP == 8
+DECOR_GRASSA == 9
+DECOR_GRASSB == 10
+DECOR_GRASSC == 11
+DECOR_FENCE == 12
+
+func createPlatform(x, y, w, h, decor int) {
+    p POD Platform = platform(x, y, w, h)
+    
+    if decor == DECOR_NONE {
+        platforms.add(p)
+        return
+    }
+    
+    if decor == DECOR_BUSH {
+        p.decorations.add(decoration(theme.bushl, x + 64, y - 64, 64, 64))
+        p.decorations.add(decoration(theme.bushr, x + 128, y - 64, 64, 64))
+        platforms.add(p)
+        return
+    }
+    
+    if decor == DECOR_FLOWERA {
+        p.decorations.add(decoration(flower_a, x + 64, y - 64, 64, 64))
+        platforms.add(p)
+        return
+    }
+    
+    if decor == DECOR_FLOWERB {
+        p.decorations.add(decoration(flower_a, x + 64, y - 64, 64, 64))
+        platforms.add(p)
+        return
+    }
+    
+    if decor == DECOR_ROCKA {
+        p.decorations.add(decoration(rock_a, x + 64, y - 64, 64, 64))
+        platforms.add(p)
+        return
+    }
+    
+    if decor == DECOR_ROCKB {
+        p.decorations.add(decoration(rock_b, x + 128, y - 64, 64, 64))
+        platforms.add(p)
+        return
+    }
+    
+    if decor == DECOR_MUSHROOMA {
+        p.decorations.add(decoration(mushroom_a, x + 64, y - 64, 64, 64))
+        platforms.add(p)
+        return
+    }
+    
+    if decor == DECOR_MUSHROOMB {
+        p.decorations.add(decoration(mushroom_b, x + w - 128, y - 64, 64, 64))
+        platforms.add(p)
+        return
+    }
+    
+    if decor == DECOR_STUMP {
+        p.decorations.add(decoration(stump, x + 64, y - 64, 64, 64))
+        platforms.add(p)
+        return
+    }
+    
+    if decor == DECOR_FENCE {
+        p.decorations.add(decoration(fence_a, x + w - 128, y - 64, 64, 64))
+        p.decorations.add(decoration(fence_b, x + w - 192, y - 64, 64, 64))
+        platforms.add(p)
+        return
+    }
+    
+    printf('ERROR: createPlatform() invalid decor type!\n')
+}
