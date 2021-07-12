@@ -1,0 +1,17 @@
+
+// NOTE: This turns out to work fine, I don't think this was
+//       ever actually a bug
+
+import '2.3/basics.adept'
+
+struct Bomb () {
+    func __defer__ {
+        print("Boom")
+    }
+}
+
+func main {
+    bomb Bomb
+    #if false
+    #end
+}

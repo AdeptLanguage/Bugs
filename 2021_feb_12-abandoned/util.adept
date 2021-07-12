@@ -1,0 +1,13 @@
+
+pragma compiler_supports '2.5'
+import basics
+
+using namespace util
+
+func util\hello {
+    greet("Hello")
+}
+
+func util\greet(message String) {
+    print("Hi! " + message)
+}

@@ -1,0 +1,13 @@
+
+import 'sys/cstdio.adept'
+
+func main {
+    defer printf('Hello %s\n', getName())
+}
+
+func getName *ubyte {
+    name *ubyte = 'Isaac'
+    defer printf('returning name...\n')
+    // Throw error not using source of deferred statement
+    //return name
+}

@@ -1,0 +1,7 @@
+
+import basics
+import random
+
+func main {
+    bonus usize = true ? random(2) as int : 0
+}

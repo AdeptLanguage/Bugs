@@ -1,0 +1,15 @@
+
+import '2.2/basics.adept'
+
+// UNINTENDED BEHAVIOR: Prevent 'each Type in my_list' from evaluating my_list twice?
+
+func main {
+    list <int> List
+    repeat 4, list.add(idx as int + 1)
+    each int in *getList(&list), print("%" % it)
+}
+
+func getList(list *<int> List) *<int> List {
+    print("Getting list...")
+    return list
+}

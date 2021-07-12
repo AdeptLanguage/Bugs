@@ -1,0 +1,23 @@
+
+#set use_struct_association true
+
+import 'sys/cstdio.adept'
+
+func main {
+    greeter <int> Greeter
+    greeter.greet(10)
+}
+
+#if use_struct_association
+struct <$T> Greeter (){
+    func greet(value $T) {
+        printf('%d!\n', value as int)
+    }
+}
+#else
+struct <$T> Greeter ()
+
+func greet(this *<$T> Greeter, value $T) {
+    printf('%d!\n', value as int)
+}
+#end

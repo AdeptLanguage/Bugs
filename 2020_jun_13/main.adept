@@ -1,0 +1,13 @@
+
+import '2.2/basics.adept'
+
+// NOTE: char(uint) void does not get dumped
+// correctly into ast.txt when using adept_debug --dump
+
+struct CreateMenu (name String) {
+    func char(character uint) {
+        c ubyte = character as ubyte
+        if c >= 'A'ub && c <= 'Z'ub or c >= 'a'ub && c <= 'z'ub or c >= '0'ub && c <= '9'ub or c == '-'ub or c == '_'ub,
+            this.name = this.name + c
+    }
+}

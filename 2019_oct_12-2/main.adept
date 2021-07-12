@@ -1,0 +1,15 @@
+
+pragma null_checks
+
+import 'sys/cstdio.adept'
+
+func main {
+    isaacs_name *ubyte = 'Isaac Shelton'
+    name **ubyte = null
+
+    // Shortcircuiting of '&&' causing problems with INSTRUCTION_LOAD
+    // constructing additional basicblocks
+    if *name != null && *name != null {
+        printf('%s\n', *name)
+    }
+}

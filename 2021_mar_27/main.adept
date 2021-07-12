@@ -1,0 +1,16 @@
+
+// BUG WITH INSIGHT
+
+/// Input parameters for b2TimeOfImpact
+struct b2TOIInput (
+    proxyA, proxyB b2DistanceProxy,
+    sweepA, sweepB b2Sweep,
+    tMax float // defines sweep interval [0, tMax]
+)
+
+/// Output parameters for b2TimeOfImpact.
+struct b2TOIOutput (
+    state b2TOIOutput\State,
+    t float
+)
+enum b2TOIOutput\State (e_unknown, e_failed, e_overlapped, e_touching, e_separated)

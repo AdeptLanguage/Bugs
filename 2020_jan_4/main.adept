@@ -1,0 +1,33 @@
+
+import '2.2/basics.adept'
+
+func main {
+    integers <int> List
+    repeat 10, integers.add(idx as int)
+    numbers <int> List = integers.copy()
+
+    print(string(integers.ownership))
+    print(string(numbers.ownership))
+}
+
+func copy(this *<$T /*~ __primitive__|__enum__*/> List) <$T> List {
+    // Copy items of list into another list
+    // NOTE: Items must be plain data
+    clone POD <$T> List
+    clone.items = new $T * this.length
+    clone.length = this.length
+    clone.capacity = this.length
+    clone.ownership = Ownership::GIVEN
+    memcpy(clone.items, this.items, sizeof $T * this.length)
+    return clone
+}
+
+func string(ownership Ownership) String {
+    switch ownership {
+    case Ownership::REFERENCE, return "REFERENCE"
+    case Ownership::OWN, return "OWN"
+    case Ownership::GIVEN, return "GIVEN"
+    case Ownership::DONOR, return "DONATED"
+    }
+    return "UNKNOWN_OWNERSHIP"
+}

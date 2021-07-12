@@ -1,0 +1,23 @@
+
+import '2.2/basics.adept'
+
+func main {
+    print("----------------------------------------")
+    test(1, false, false)
+    test(2, true, true)
+    test(3, false, true)
+    test(4, true, false)
+    print("----------------------------------------")
+}
+
+func test(testID int, first, second bool) {
+    defer print("% - This should be printed four times" % testID)
+
+    if first {
+        return
+    }
+
+    if second, return
+
+    return
+}

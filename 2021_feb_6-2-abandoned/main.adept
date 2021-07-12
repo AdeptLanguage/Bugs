@@ -1,0 +1,20 @@
+
+import "other.adept"
+
+// Another issue is that 'custom\Thing' and 'Thing' are not treated as the same
+// type, even though they are.
+// It seems like the two types are only equal depending on whether the root file
+// "uses" the namespace. The same problem happens with a recently fixed struct/union "using namespace"
+// bug. Somehow the IRGEN stage will need information about which file "object" it is being evaluated in.
+#default include_namespace true
+
+#if include_namespace
+    using namespace custom
+#end
+
+func main {
+    // Even though 'custom\Thing' is the same type as 'Thing',
+    // the non-namespaced name isn't accessible and so the two are treated as incompatible
+    x custom\Thing = createThing()
+}
+

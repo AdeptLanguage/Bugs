@@ -1,0 +1,15 @@
+
+// null pointer checks may not be indicating the correct file
+
+/*
+===== RUNTIME ERROR: NULL POINTER DEREFERENCE, MEMBER-ACCESS, OR ELEMENT-ACCESS! =====
+In file:	main.adept
+In function:	drawCard(*CardGame, *CardInstance, float, float, float) void
+Line:	326
+Column:	25
+Isaacs-Mac-mini:GenericCardGame isaac$ ===== RUNTIME ERROR: NULL POINTER DEREFERENCE, MEMBER-ACCESS, OR ELEMENT-ACCESS! =====
+In file:	main.adept
+In function:	drawCard(*CardGame, *CardInstance, float, float, float) void
+Line:	326
+Column:	25
+*/

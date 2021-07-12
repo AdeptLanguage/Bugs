@@ -1,0 +1,6 @@
+
+define PREHISTORIC = PREHISTORIC
+
+func main {
+    x double = PREHISTORIC
+}

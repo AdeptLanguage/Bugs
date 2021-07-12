@@ -1,0 +1,10 @@
+
+import basics
+
+func main {
+    test()
+}
+
+func test(x *int = null) {
+    print(x)
+}

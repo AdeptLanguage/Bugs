@@ -1,0 +1,14 @@
+
+// This seems to be have been since resolved
+// - Isaac Shelton, Jul 11 2021
+
+import basics
+
+func main {
+    _test1 int = 10
+    _test2 int
+
+    for(i int = 1; i < _test1; ++i){
+        print('ComputeAABB 1', _test1, i)
+    }
+}

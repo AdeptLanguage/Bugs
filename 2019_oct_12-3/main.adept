@@ -1,0 +1,50 @@
+
+#set log_string_deletion true
+import '2.2/basics.adept'
+
+func main {
+    until break {
+        test String = "Isaac " + "Shelton"
+        break
+    }
+
+    still_continue bool = true
+    while continue {
+        test String = still_continue ? "Hello " + "World 1" : "Hello " + "World 2"
+        if still_continue {
+            still_continue = false
+            continue
+        }
+    }
+
+    until break {
+        defer print("Hurray")
+        break
+    }
+
+    still_continue = true
+    first_time bool = true
+    while continue {
+        defer print(first_time ? "Bye World" : "Bye World Again")
+        if still_continue {
+            defer print("So long world")
+            still_continue = false
+            continue
+        }
+        first_time = false
+    }
+
+    until break until_break_loop {
+        defer print("Complete")
+        break until_break_loop
+    }
+
+    still_continue = true
+    while continue while_continue_loop {
+        if still_continue {
+            defer print("Done!!")
+            still_continue = false
+            continue while_continue_loop
+        }
+    }
+}

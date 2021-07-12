@@ -1,0 +1,42 @@
+
+// UNRESOLVED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// Probably has to do with 'tests.add(*static Test())'
+
+import '2.2/basics.adept'
+
+func main {
+    randomize()
+    
+    guessed <int> List
+    actual int = randomInt(100)
+    
+    until break {
+        unless skimIntInto("Enter a guess: ", undef guess int), return
+        
+        if guessed.contains(guess) {
+            print("You already guessed that")
+            continue
+        }
+        
+        if guess == actual, break
+        if guess < actual, print("Too low")
+        else               print("Too high")
+        guessed.add(guess)
+    }
+    
+    print("You guessed correctly")
+    
+    tests <Test> List
+    tests.add(*static Test())
+}
+
+func contains(this *<int> List, other int) bool {
+    each int in [this.items, this.length], if it == other, return true
+    return false
+}
+
+struct Test ()
+
+func __defer__(this *Test) {
+    print("Test was destroyed!")
+}

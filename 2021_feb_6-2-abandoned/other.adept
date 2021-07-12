@@ -1,0 +1,27 @@
+
+// This line seems to have no effect on type comparisons (since it's not in the root file)
+using namespace custom
+
+struct custom\Thing ()
+
+func createThing() custom\Thing {
+    t POD Thing
+    return t
+}
+
+
+
+
+
+// using namespace custom
+
+// namespace custom {
+//     alias XType = int
+//     alias YType = XType
+//     struct Thing ()
+
+//     func createThing(x XType, y YType) Thing {
+//         t POD Thing = undef
+//         return t
+//     }
+// }

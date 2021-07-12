@@ -1,0 +1,8 @@
+
+// TODO: Fix circular type declarations via pointers
+// TODO: Make this work
+struct A (b *B)
+struct B (a *A)
+
+
+func main {}

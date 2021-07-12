@@ -1,0 +1,70 @@
+
+#print "This code was just ideas I think"
+#halt // The following were just ideas I think
+
+struct Owned (ownership Ownership)
+
+func __defer__(this *$T~Owned) = required
+
+func __pass__(owned POD $T~Owned) $T {
+    if      owned.ownership == Ownership::OWN,   owned.ownership = Ownership::REFERENCE
+    else if owned.ownership == Ownership::GIVEN, owned.ownership = Ownership::OWN    
+    return owned
+}
+
+func commit(this *$T~Owned) $T {
+    if this.ownership == Ownership::OWN {
+        this.ownership = Ownership::REFERENCE
+        
+        given POD $T = POD *this
+        given.ownership = Ownership::GIVEN
+        return given
+    }
+    return *this
+}
+
+func donate(this *$T~Owned) $T {
+    if this.ownership == Ownership::OWN {
+        donated POD $T = POD *this
+        donated.ownership = Ownership::DONOR
+        return donated
+    }
+    return *this
+}
+
+func __assign__(this *$T~Owned, other $T~Owned) {
+    this.__defer__()
+    
+    if other.ownership == Ownership::GIVEN {
+        *this = POD other
+        this.ownership = Ownership::OWN
+        return
+    }
+    
+    *this = POD other
+    this.ownership = Ownership::REFERENCE
+}
+
+// -----------------------------------------------------
+
+import 'sys/cstdio.adept'
+
+struct NameList (names *ubyte, length usize, ownership Ownership) {
+    func __defer__ {
+        unless this.ownership == Ownership::OWN, return
+        
+        each *ubyte in *this, delete it
+        delete this.names
+    }
+}
+
+func main {
+    names NameList = getNamesList()
+    names.print()
+}
+
+func getNamesList NameList {
+    list NameList
+    list.addSomeNames()
+    return list.commit()
+}

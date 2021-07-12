@@ -1,0 +1,5 @@
+
+// This seems to have since been fixed
+// - Isaac Shelton, Jul 11 2021
+
+For some reason, the card traits in Generic Card Game don't seem be loading correctly when compiled on arm64 MacOS

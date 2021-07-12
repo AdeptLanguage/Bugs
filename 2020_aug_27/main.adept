@@ -1,0 +1,8 @@
+
+repeat static it.traits.attacks + (meets(gamedata.ai_difficulty, AIDifficulty::CHEATER) ? random(2) as int : 0)
+
+// should be the same as
+
+repeat static it.traits.attacks + meets(gamedata.ai_difficulty, AIDifficulty::CHEATER) ? random(2) as int : 0
+
+// (it's a parsing issue I looked)

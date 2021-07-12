@@ -1,0 +1,12 @@
+
+pragma compiler_version '2.3'
+pragma null_checks
+pragma no_type_info
+
+func main {
+    ints *int = null
+    
+    if ints != null && false {
+        
+    }
+}

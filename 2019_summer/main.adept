@@ -1,0 +1,14 @@
+
+import 'sys/cstdio.adept'
+
+func main {
+    printf('Returned Value: %s\n', getMessage())
+}
+
+func getMessage *ubyte {
+    result *ubyte = 'Correct!'
+    defer printf('After defer stmt: %s\n', result)
+    defer result = 'Incorrect'
+    printf('Before defer stmt: %s\n', result)
+    return result
+}

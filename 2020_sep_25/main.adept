@@ -1,0 +1,53 @@
+
+pragma compiler_version "2.4"
+pragma project_name "conway"
+pragma enable_experimental_colon_colon_syntax
+
+#import <basics>
+
+Grid :: struct (values 10 10 bool) {
+    setupDefault :: func {
+        memset(&this.values, 0, sizeof 10 10 bool)
+        this.values[0][0] = true
+        this.values[1][0] = true
+        this.values[2][0] = true
+    }
+    
+    print :: func {
+        each 10 bool in this.values {
+            each bool in it {
+                printf("%c ", it ? '='ub : '-'ub)
+            }
+            newline()
+        }
+        
+        #if !__windows__
+            newline()
+        #end
+    }
+    
+    advance :: func {
+        
+    }
+}
+
+main :: func {
+    grid Grid
+    grid.setupDefault()
+    grid.print()
+    
+    // The semi dropped value here is not correctly destroyed,
+    // and trips malloc_error_break
+    until scan("<quit> or nothing: ").isQuitLike() {
+        grid.advance()
+        grid.print()
+    }
+}
+
+isQuitLike :: func (this *String) bool {
+    if *this == "quit",   return true
+    if *this == "q",      return true
+    if *this == "<quit>", return true
+    if *this == "exit",   return true
+    return false
+}

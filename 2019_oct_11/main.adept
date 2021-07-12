@@ -1,0 +1,15 @@
+
+import 'sys/ctime.adept'
+import 'sys/cstdio.adept'
+import 'sys/cstdlib.adept'
+
+func main {
+    // Randomize
+    srand(time(null))
+    times usize = cast usize (rand() % 10)
+    repeat times, rand()
+    
+    x double = rand() as double / RAND_MAX as double
+    bomb bool = x < 0.5
+    printf('(%f < 0.5) == %d\n', x, bomb as int)
+}

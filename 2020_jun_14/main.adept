@@ -1,0 +1,22 @@
+
+#set log_string_deletion true
+import '2.2/basics.adept'
+
+struct Thing (value String) {
+    func __assign__(other Thing) {
+        this.value = other.value.clone()
+    }
+}
+
+func main {
+    // NOTE: Two strings are created, but only one is destroyed
+    // due to __assign__ not taking care of __defer__() call on dropped value
+    x Thing = getThing()
+    print(x.value)
+}
+
+func getThing Thing {
+    thing POD Thing
+    thing.value = "Hello World".clone()
+    return thing
+}

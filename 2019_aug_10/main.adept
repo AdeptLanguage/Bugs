@@ -1,0 +1,13 @@
+
+import '2.2/basics.adept'
+
+func main {
+    // __defer__ leak with immutable values, however they can't be used anyway
+    each int in randomNumbers(), print(it)
+}
+
+func randomNumbers <int> List {
+    randoms <int> List
+    repeat 100, randoms.add(idx as int)
+    return randoms.commit()
+}

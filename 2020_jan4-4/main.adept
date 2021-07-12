@@ -1,0 +1,20 @@
+
+import '2.2/basics.adept'
+
+func main {
+    string String = "Hello!"
+    print(string.reduced(1))
+
+    list <ubyte> List
+    list.add('H'ub)
+    list.add('e'ub)
+    list.add('y'ub)
+    each ubyte in list, printf('%c', it)
+    putchar(0x0A)
+
+    // When searching for a potential polymorphic method candidate,
+    // non-polymophic arguments are not being passed to arg_types_conform()'d
+    list.reduce(1)
+    each ubyte in list, printf('%c', it)
+    putchar(0x0A)
+}

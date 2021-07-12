@@ -1,0 +1,25 @@
+
+import List
+import "Animation.adept"
+
+struct Textures (bomb1, bomb2, bomb3 CaptTexture)
+textures Textures
+
+struct GameData (
+    bomb_animation Animation
+) {
+    func load {
+        // HERE:
+        // Originally thought was bool,
+        // but now after removing some other members
+        // and fields, it thinks it is a bool for
+        // some reason
+        this.bomb_animation = animation({
+            &textures.bomb1,
+            &textures.bomb2,
+            &textures.bomb3
+        }/* as <*CaptTexture> Array*/, 20)
+    }
+}
+
+gamedata GameData

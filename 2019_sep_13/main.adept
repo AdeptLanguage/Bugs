@@ -1,0 +1,31 @@
+
+// This is actually a bug from a few months earlier
+// Inference shouldn't be applied to bitwise and, or, or xor expressions
+
+import 'sys/cstdio.adept'
+
+GLFW_MOD_SHIFT   == 0x0001
+GLFW_MOD_CONTROL == 0x0002
+GLFW_MOD_ALT     == 0x0004
+GLFW_MOD_SUPER   == 0x0008
+
+func main {
+    printf('5 & 2 = %d   6 & 2 = %d   7 & 4 = %d\n', 5 & 2, 6 & 2, 7 & 4)
+
+    value int = 6
+
+    if value & 2 {
+        printf('value & 2 == true\n')
+    } else {
+        printf('value & 2 == false\n')
+    }
+
+    printf('-----------------------\n')
+    mods int = GLFW_MOD_SHIFT | GLFW_MOD_CONTROL
+
+    printf('mods = %d\n', mods)
+    if mods & GLFW_MOD_SHIFT,   printf('w/ shift\n')
+    if mods & GLFW_MOD_CONTROL, printf('w/ control\n')
+    if mods & GLFW_MOD_ALT,     printf('w/ alt\n')
+    if mods & GLFW_MOD_SUPER,   printf('w/ super\n')
+}

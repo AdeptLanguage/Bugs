@@ -1,0 +1,8 @@
+
+// Don't allow returning values from 'func main {'
+
+func main {
+    return voidThing()
+}
+
+func voidThing void {}

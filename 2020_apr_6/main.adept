@@ -1,0 +1,6 @@
+
+// This
+func contains(this *String, needle String) bool = this.first(needle) != -1
+
+// Is not being the same as
+func contains(this *String, needle String) bool = (this.first(needle) != -1sl)

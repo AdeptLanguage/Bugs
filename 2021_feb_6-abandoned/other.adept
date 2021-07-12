@@ -1,0 +1,8 @@
+
+using namespace custom
+
+namespace custom {
+    alias integer = int
+}
+
+func doSomething() integer = 10

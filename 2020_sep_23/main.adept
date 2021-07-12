@@ -1,0 +1,22 @@
+
+import basics
+func alias echo() => newline
+func alias echo(String) => print
+func alias echo(int) => asdf
+
+func main {
+    echo("Hello World")
+    echo()
+    echo("This is a test")
+    echo(12345)
+}
+
+func echo(value int){
+    print(toString(value).reversed())
+}
+
+func asdf(_a int){
+    printf('This should never be called, the real function should be called instead\n')
+    printf('If this is declared before echo(int), then this function will be called instead\n')
+    printf('This behavior may be changed in the future')
+}

@@ -1,0 +1,27 @@
+
+// NOTE: 'func &' doesn't create a defer method if one doesn't exist
+// I don't think this has to do with declaration order, it's just that
+// __defer__ isn't auto-generated when referenced in a 'func &' expression
+// when it doesn't already exist
+
+import '2.2/List.adept'
+import '2.2/Ownership.adept'
+
+struct GameData(int_list <int> List)
+
+func main {
+    // This is one option which makes everything works fine
+    // ----------------------------------
+    // if false {
+    //     g GameData
+    //     g.__defer__()
+    // }
+    // ----------------------------------
+
+    exit func(*GameData) void = func &__defer__(*GameData)
+}
+
+// This is another option which makes everything works fine
+// ----------------------------------
+// func __defer__(this *GameData){}
+// ----------------------------------

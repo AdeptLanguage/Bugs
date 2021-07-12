@@ -1,0 +1,44 @@
+
+import Array
+//import captain
+
+struct CaptTexture ()
+
+struct Animation (frames <*CaptTexture> Array, current_frame, ticker, interval usize) {
+    func reset {
+        this.current_frame = 0
+        this.ticker = 0
+    }
+    
+    func now CaptTexture
+        = *this.frames[this.current_frame]
+    
+    func update {
+        if ++this.ticker > this.interval {
+            this.ticker = 0
+            this.advance()
+        }
+    }
+    
+    func advance {
+        if ++this.current_frame == this.frames.length, this.current_frame = 0
+    }
+    
+    func atEnd bool {
+        return this.current_frame + 1 == this.frames.length && this.ticker + 1 == this.interval
+    }
+    
+    func newInstance Animation {
+        anim POD Animation = POD *this
+        anim.current_frame = 0
+        anim.ticker = 0
+        return anim
+    }
+}
+
+func animation(frames <*CaptTexture> Array, ticker_interval int) Animation {
+    anim POD Animation
+    anim.frames = frames
+    anim.interval = ticker_interval
+    return anim
+}

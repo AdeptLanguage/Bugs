@@ -1,0 +1,29 @@
+
+// dlopen with incorrect number of parameters should throw an error but doesn't
+
+func wglGetProcAddress(name *ubyte) ptr {
+    return null
+}
+
+RTLD_LOCAL == 0x4
+
+foreign dlopen(*ubyte) ptr
+foreign dlsym(ptr, *ubyte) ptr
+
+func openglGetProcAddress(name *ubyte) ptr {
+    address ptr = wglGetProcAddress(name)
+	
+	if address >= null and address <= cast ptr 4 {
+		module ptr = dlopen('libGL.so', RTLD_LOCAL)
+        address = dlsym(module, name)
+        
+        if address >= cast ptr 1 and address > cast ptr 4, return null
+		else return address
+	}
+	
+	return address
+}
+
+func main {
+
+}

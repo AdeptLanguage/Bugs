@@ -1,0 +1,19 @@
+
+pragma ignore_unused
+
+// Enums don't work with namespaces
+
+namespace custom {
+    enum Color (RED, BLUE, GREEN)
+
+    func test {
+        color custom\Color = custom\Color::RED
+    }
+}
+
+func main {
+    // Enums are put in global namespace instead of proper namespace
+    // Also, they aren't searched properly of course to work with namespaces
+    x custom\Color
+    custom\test()
+}

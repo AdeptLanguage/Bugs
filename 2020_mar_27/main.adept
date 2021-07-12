@@ -1,0 +1,8 @@
+
+import 'sys/cstdio.adept'
+
+func main {
+    position int = 0
+    idx usize = 0
+    y_offset float = cast float !(position == idx as int)
+}

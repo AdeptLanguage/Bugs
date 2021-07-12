@@ -1,0 +1,24 @@
+
+import 'sys/cstdio.adept'
+
+func main {
+    test(false, false)
+    test(true, false)
+    test(false, true)
+    test(true, true)
+}
+
+func test(x, y bool) {
+    printf('%s, %s\n', x ? 'true' : 'false', y ? 'true' : 'false')
+
+    // 'else' is applied to first 'if', rather than most recent 'if'
+    if x, if y, do1() else do2()
+}
+
+func do1 {
+    printf('do1()\n')
+}
+
+func do2 {
+    printf('do2()\n')
+}

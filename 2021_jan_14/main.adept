@@ -1,0 +1,68 @@
+
+#set log_string_deletion true
+
+import basics
+
+func main {
+    print("entering...")
+    each String in static getNames() {
+        print("start")
+        print(it)
+        print("end")
+    }
+}
+
+func getNames <String> List {
+    print("called")
+
+    names <String> List
+    names.add("Isaac".clone())
+    names.add("Andy".clone())
+    names.add("Zack".clone())
+    names.add("Ellie".clone())
+    return names.commit()
+}
+
+/*
+import 'sys/cstdio.adept'
+
+struct Bomb () {
+    func __defer__ {
+        printf('kaboom\n')
+    }
+}
+
+struct Bombs (b1, b2 Bomb) {
+    func __array__ *Bomb {
+        printf('__array__ called\n')
+        return &this.b1
+    }
+
+    func __length__ usize {
+        printf('__length__ called\n')
+        return 2
+    }
+
+    func __defer__ {
+        printf('Bombs.__defer__() called!\n')
+    }
+}
+
+func main {
+    each Bomb in getBombs() {
+        printf('inside\n')
+    }
+
+    printf('\n\n')
+
+    each Bomb in static getBombs() {
+        printf('inside static\n')
+    }
+}
+
+func getBombs() Bombs {
+    bombs POD Bombs
+    printf('getBombs() called!\n')
+    return bombs
+}
+*/

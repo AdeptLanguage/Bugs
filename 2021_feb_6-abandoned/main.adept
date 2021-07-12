@@ -1,0 +1,7 @@
+
+import basics
+import "other.adept"
+
+func main {
+    x custom\integer = doSomething()
+}

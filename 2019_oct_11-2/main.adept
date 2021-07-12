@@ -1,0 +1,11 @@
+
+import '2.2/basics.adept'
+
+// UNINTENDED BEHAVIOR: Make it so 'uz' suffix isn't needed in '(additional + idx == 0 ? 10uz : idx)' where additional is a usize
+
+func main {
+    repeat 10 {
+        value usize = idx - 3 == 0 ? 10 : idx
+        printf('%d\n', value as int)
+    }
+}

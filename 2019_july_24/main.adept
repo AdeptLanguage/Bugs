@@ -1,0 +1,73 @@
+
+import '2.2/basics.adept'
+
+#if __windows__
+    func getExecutableLocation String {
+        // Returns location of executable on windows
+        // NOTE: Returns empty string on failure
+        return ""
+    }
+#end
+
+#if __macos__
+    foreign _NSGetExecutablePath(*ubyte, *uint) int
+    foreign realpath(*ubyte, *ubyte) *ubyte
+    
+    func getExecutableLocation String {
+        // Returns location of executable on mac
+        // NOTE: Returns empty string on failure
+        
+        storage 1024 ubyte = undef
+        size uint = 1024
+        
+        if _NSGetExecutablePath(&storage as *ubyte, &size) != 0,
+            return ""
+        
+        resolved 4096 ubyte = undef
+        realpath(&storage as *ubyte, &resolved as *ubyte)
+        return string(&resolved as *ubyte)
+    }
+#end
+
+func where String {
+    // Returns path that executable resides in
+    // NOTE: Returns empty string on failure
+    
+    executable String = getExecutableLocation()
+    if executable == "", return ""
+    
+    last_slash long = executable.last('/'ub)
+    
+    #if __windows__
+    last_backslash long = executable.last('\\'ub)
+    if last_backslash > last_slash, last_slash = last_backslash
+    #end
+    
+    if last_slash == -1, return ""
+    
+    // HACK: Compiler does deference before return statement so we have to
+    // store the result beforehand
+
+    // ISSUE IS RIGHT HERE, sometimes crashes othertimes has weird unrelated errors!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // SEEMS TO BE ISSUE WITH PARSING STRING THAT CONTAIN "\\"
+    // SEEMS TO BE ISSUE WITH PARSING STRING THAT CONTAIN "\\"
+    // SEEMS TO BE ISSUE WITH PARSING STRING THAT CONTAIN "\\"
+    // SEEMS TO BE ISSUE WITH PARSING STRING THAT CONTAIN "\\"
+    // SEEMS TO BE ISSUE WITH PARSING STRING THAT CONTAIN "\\"
+    // SEEMS TO BE ISSUE WITH PARSING STRING THAT CONTAIN "\\"
+    // SEEMS TO BE ISSUE WITH PARSING STRING THAT CONTAIN "\\"
+    // SEEMS TO BE ISSUE WITH PARSING STRING THAT CONTAIN "\\"
+    // SEEMS TO BE ISSUE WITH PARSING STRING THAT CONTAIN "\\"
+    // __windows__ vs __macos__ seems to do weird stuff as well but i dont think thats the root cause
+    #if __macos__
+
+    result POD String = executable.sub(0, (last_slash + 1) as usize) + "\\"
+
+    #end
+    
+    return result
+}
+
+func main {
+    print(where())
+}

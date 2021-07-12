@@ -1,0 +1,19 @@
+
+// "INTERNAL ERROR: Failed to find struct 'AdventureObjectiveKind' that should exist!"
+// AdventureObjectiveKind is an enum but the compiler assumes it exists as a struct?
+
+/*
+if this.adventure_objective.kind != AdventureObjectiveKind::NONE, switch room.adventure_objective.kind {
+case AdventureObjectiveKind::FLOWER
+    this.enemies.add(enemy(EnmeyKind::OLD_MAN, captViewWidth() / 2.0f - 32.0f, captViewHeight() / 2.0f - 32.0f, 1))
+    break
+}
+*/
+
+import '2.2/Matrix4f.adept'
+
+struct Matrix4f (x int)
+
+func main {
+    x Matrix4f
+}
