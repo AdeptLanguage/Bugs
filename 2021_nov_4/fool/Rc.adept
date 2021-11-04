@@ -1,0 +1,48 @@
+
+struct <$T> Rc (value *$T, count *usize) {
+    verbatim func __defer__ {
+        if this.count && *this.count != 0 && --*this.count == 0 {
+            this.value.__defer__()
+            delete this.value
+            delete this.count
+        }
+    }
+
+    func get() $T {
+        return this.value
+    }
+
+    func getPointer() *$T {
+        return &this.value
+    }
+
+    func __assign__(other POD <$T> Rc) {
+        this.__defer__()
+        *this = POD other
+        *this.count += 1
+    }
+}
+
+func __return__(rc POD <$T> Rc) <$T> Rc {
+    *rc.count += 1
+    return rc
+}
+
+func __pass__(rc POD <$T> Rc) <$T> Rc {
+    *rc.count += 1
+    return rc
+}
+
+func Rc(value *$T) <$T> Rc {
+    rc POD <$T> Rc = undef
+    rc.value = value
+    rc.count = new usize
+    *rc.count = 0
+    return rc
+}
+
+func CompilerPODReturn(value POD $T) $T = value
+
+func CompilerReturn(value POD $T) $T {
+    return __return__(value)
+}

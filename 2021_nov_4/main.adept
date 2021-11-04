@@ -1,0 +1,18 @@
+
+pragma ignore_unused
+import basics
+
+struct RcString () {
+    func __assign__(other POD RcString) {}
+}
+
+implicit func __as__(string POD int) RcString {
+    print("hi")
+    rc_string POD RcString = undef
+    return rc_string
+}
+
+func main {
+    value RcString
+    value = 10si
+}

@@ -1,0 +1,24 @@
+
+// #print "error"
+// #halt
+
+import 'sys/cstdio.adept'
+
+// This isn't really a bug, but just something that should work
+
+struct Dummy () {
+    func getDummy Dummy {
+        printf('dummy tail...\n')
+        return *this
+    }
+}
+
+func main {
+    getDummy().getDummy().getDummy()
+}
+
+func getDummy Dummy {
+    d POD Dummy = undef
+    printf('dummy...\n')
+    return d
+}

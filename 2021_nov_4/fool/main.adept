@@ -1,0 +1,50 @@
+
+pragma ignore_unused
+import basics
+
+import "RcString.adept"
+
+alias RCS = RcString
+
+func main {
+    //my_string <String> MyString = "Hello World"
+    rc_string RCS = "Isaac"
+}
+
+implicit func __as__(string String) <String> Rc {
+    print("String to RcString")
+    cloned *String = new String
+    *cloned = string.commit()
+    cloned.make()
+    return CompilerPODReturn(Rc(cloned))
+}
+
+implicit func __as__(rc_string POD <String> Rc) String {
+    print("RcString to String")
+    return rc_string.value.clone()
+}
+
+
+
+
+
+struct <$T> MyString () {
+    verbatim func __defer__ {}
+
+    func __assign__(other POD <$T> MyString) {
+    }
+}
+
+func __pass__(value POD <$T> MyString) <$T> MyString {
+    return value
+}
+
+implicit func __as__(string POD String) <String> MyString {
+    print("__as__(String) ~> MyString")
+    m POD <String> MyString = undef
+    return m
+}
+
+implicit func __as__(my_string POD <String> MyString) String {
+    return ""
+}

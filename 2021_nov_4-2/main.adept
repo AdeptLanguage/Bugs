@@ -1,0 +1,25 @@
+
+pragma ignore_unused
+import basics
+
+struct Value (i int) {
+    func __assign__(other POD Value) {
+        this.i = other.i
+    }
+}
+
+func toString(value Value) String {
+    return toString(value.i)
+}
+
+implicit func __as__(integer POD int) Value {
+    value POD Value = undef
+    value.i = integer
+    return value
+}
+
+func main {
+    // BUG: Crashes because it expects an 'int' for '__as__(int) ~> Value', but gets a long
+    value Value = 10
+    print(value)
+}

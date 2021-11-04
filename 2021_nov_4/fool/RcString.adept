@@ -1,0 +1,49 @@
+
+import String
+import "Rc.adept"
+
+struct RcString (internals <String> Rc) {
+    verbatim func __defer__ {
+        // This would have been auto-generated, but it helps
+        // to have it explicitly written out
+        this.internals.__defer__()
+    }
+
+    func __assign__(other POD RcString) {
+        this.internals.__assign__(other.internals)
+    }
+
+    // func peek String {
+    //     return *this.internals.value
+    // }
+}
+
+func __return__(rc_string POD RcString) RcString {
+    __return__(rc_string.internals)
+    return rc_string
+}
+
+func __pass__(rc_string POD RcString) RcString {
+    rc_string.internals = __pass__(rc_string.internals)
+    return rc_string
+}
+
+implicit func __as__(string String) RcString {
+    print("=> String to RcString")
+    cloned *String = new String
+    *cloned = string.commit()
+    cloned.make()
+    return CompilerPODReturn(RcString(cloned))
+}
+
+implicit func __as__(rc_string POD RcString) String {
+    print("RcString to String")
+    return rc_string.internals.value.clone()
+}
+
+func RcString(of *String) RcString {
+    rc_string POD RcString = undef
+    rc_string.internals = POD Rc(of)
+    // return POD rc_string
+    return CompilerPODReturn(rc_string)
+}

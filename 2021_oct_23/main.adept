@@ -1,0 +1,9 @@
+
+import basics
+
+func main {
+    string 6 ubyte = {'H'ub, 'e'ub, 'l'ub, 'l'ub, 'o'ub, '\0'ub}
+    print(string at 0)
+    printf('Hi World\0Bye World')
+    newline()
+}

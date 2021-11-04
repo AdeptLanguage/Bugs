@@ -1,2 +1,2 @@
 # Bugs
-Informal archive of previous and on-going bugs in the Adept compiler
+Archive of old bugs in the Adept compiler
