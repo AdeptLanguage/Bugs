@@ -9,7 +9,7 @@ func main {
 }
 
 /*
-// For some reason this
+
 func contains(this *String, needle String) bool = this.first(needle) != -1
 // does not correctly colapse to
 func contains(this *String, needle String) bool = this.first(needle) != -1sl

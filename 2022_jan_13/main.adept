@@ -1,0 +1,14 @@
+
+import basics
+
+struct Bomb () {
+    func __defer__ {
+        print("Kaboom")
+    }
+}
+
+bomb Bomb
+
+func main int {
+    return 100
+}

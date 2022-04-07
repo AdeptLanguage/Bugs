@@ -1,0 +1,36 @@
+
+#set log_string_deletion true
+
+import '2.3/basics.adept'
+
+struct Bomb () {
+    func __defer__ {
+        printf('Bomb dropped!\n')
+    }
+    
+    func dropAgain Bomb {
+        return *this
+    }
+}
+
+func main {
+    // --------------------------------------------------------
+    //                       BUG
+    // Should print message 6 times, but only prints it twice
+    // --------------------------------------------------------
+
+    // Solved
+    // The issue was that parsed method calls had it set so
+    // dropping values was allowed for some reason
+
+    // Each returned value of 'Bomb' has __defer__ called on it because none are stored in a variable
+    accidentlyDropBomb().dropAgain().dropAgain()
+
+    // Each returned value of 'Bomb' has __defer__ called on it because none are stored in a variable
+    (accidentlyDropBomb()).dropAgain().dropAgain()
+}
+
+func accidentlyDropBomb Bomb {
+    bomb POD Bomb
+    return bomb
+}

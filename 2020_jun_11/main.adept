@@ -1,6 +1,6 @@
 
 // Maybe fix problem with 'func onStep()' incorrectly resolving to the one with arguments
-// For some reason, 'func &functionName()' does not make sure the arity matches or something
+
 
 func main {
     // ----------------------------------------------------

@@ -1,0 +1,11 @@
+
+pragma windows_only
+import basics
+
+message *ubyte = 'Hello World'
+
+external stdcall func WinMain(hInstance, hPrevInstance HINSTANCE, lpCmdLine LPSTR, nCmdShow int) int {
+    // issue: message is never initialized because
+    // we don't have a normal main function
+    print(message)
+}

@@ -16,7 +16,6 @@ func main {
     maybe_float.is_float = true
     maybe_float.f = 2.0f * PI
     print("Tau = %S\n", toString(maybe_float))
-    //print("Tau = %S\n", toString(maybe_float)) // FOR SOME REASON, AN ERROR ONLY IS PROPERLY SHOWN WITH RTTI OFF, OTHERWISE IT JUST CRASHES (LLVM ASSERTION) DURING COMPILATION
 }
 
 func distanceToOrigin(p struct (x, y, z float)) float {

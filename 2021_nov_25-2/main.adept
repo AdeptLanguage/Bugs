@@ -1,0 +1,14 @@
+// Fixed unhelpful error message for this code
+
+import basics
+
+struct <$T> Test ()
+
+func __defer__(this *$T~__number__) {
+    printf("%s\n", typenameof $T)
+}
+
+func main {
+    _t1 int
+    _t2 ubyte
+}

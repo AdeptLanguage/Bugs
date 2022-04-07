@@ -1,0 +1,17 @@
+
+// https://docs.microsoft.com/en-us/windows/win32/winprog/windows-data-types
+alias LRESULT = ptr
+alias LPSTR = *ubyte
+alias ULONG_PTR = *ulong
+alias WORD = ushort
+
+define NULL = null
+define WM_CLOSE = 0x0010 // https://docs.microsoft.com/en-us/windows/win32/winmsg/wm-close
+define WM_DESTROY = 0x0002 // https://docs.microsoft.com/en-us/windows/win32/winmsg/wm-destroy
+
+define IDI_APPLICATION = MAKEINTRESOURCEA(32512) // https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-loadicona
+
+// https://stackoverflow.com/questions/3610565/why-does-makeintresource-work
+func MAKEINTRESOURCEA(i) LPSTR = cast LPSTR (cast ULONG_PTR (cast WORD i))
+
+

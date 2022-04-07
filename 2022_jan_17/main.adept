@@ -1,0 +1,10 @@
+
+import basics
+
+func main {
+    test()
+}
+
+func test(number $T~__number__ = 0) {
+    print(number)
+}

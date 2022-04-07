@@ -1,0 +1,9 @@
+import basics
+
+func sum(a, b $T~__number__) $T = a + b
+
+func main {
+    doCalculation func(int, int) int = func &sum
+
+    print("Result of 8 and 13 is %" % doCalculation(8, 13))
+}

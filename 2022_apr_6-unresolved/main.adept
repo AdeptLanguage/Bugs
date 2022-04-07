@@ -1,0 +1,30 @@
+
+#default no_print true
+
+#if no_print
+    // This should throw a compile-time error for not using va_start
+    func print(_ $T, ...) void {}
+
+    // This should be recommended instead
+    func print(_1 $T, _2 ...) void {}
+#end
+
+pragma null_checks
+import basics
+
+record Node (next *Node)
+
+func main {
+    node2 *Node = new Node
+    node2.next = null
+
+    node1 *Node = new Node
+    node1.next = node2
+    node1.next = 0x0 as ptr
+
+    // This line will cause a crash,
+    // since the C-style va_args were not handled correctly
+    print(node1, node2)
+
+    print("Hi")
+}

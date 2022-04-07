@@ -1,0 +1,20 @@
+// Solved issue with polymorpic records and improve error messages regarding polymorphic instantiation
+
+import basics
+
+// Record is generating incorrect constructor function
+record <$T> Test (x int)
+
+#if false
+    // ISSUE
+    // Makes something like this, which is missing the <$T> qualifiers
+    func Test() Test {
+        _ POD Test = undef
+        return _
+    }
+#end
+
+func main {
+    _t1 <long> Test = Test(10) ~> <long> Test
+    print(_t1.x)
+}

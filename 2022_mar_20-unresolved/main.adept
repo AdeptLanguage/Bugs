@@ -1,0 +1,13 @@
+
+import terminal
+import String
+
+record <$T> Couple (a, b $T)
+
+func takeTwo(value $T, couple <$T> Couple) void {
+    print(value, couple.a, couple.b)
+}
+
+func main {
+    takeTwo(10ub, Couple(1000, 2000)) // This call should not be allowed
+}

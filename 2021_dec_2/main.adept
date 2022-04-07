@@ -1,0 +1,6 @@
+
+// disappearing crt2.o and crtbegin.o
+// why does this happen
+
+// According to commit history, was fixed in c690af57553e1e641b9e8a90fa61dc9941a2ac53
+// - Isaac, April 6th 2022

@@ -1,0 +1,20 @@
+pragma ignore_unused
+
+import basics
+
+func main {
+    define count = 7
+
+    names [count] String = {
+        "Isaac",
+        "Adam",
+        "Lauren",
+        "Courtney",
+        "Ellie",
+        "Erin",
+        "Josie",
+    }
+
+    // Has to do with fixed arrays not working right in each-in loops
+    each String in names, print(it)
+}
