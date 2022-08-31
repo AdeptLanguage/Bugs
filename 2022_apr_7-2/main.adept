@@ -1,0 +1,16 @@
+
+pragma ignore_unused
+import basics
+
+struct Bomb () {
+    func __defer__ {
+        print("This message should be printed")
+    }
+}
+
+func main {
+    // This works for 'if true { ... }' but not as '{ ... }' for some reason
+    {
+        bomb Bomb
+    }
+}

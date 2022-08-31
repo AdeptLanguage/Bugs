@@ -1,0 +1,22 @@
+
+import basics
+
+struct <$T> Thing(value $T)
+
+implicit func __as__(_thing <$T> Thing) [10] $T {
+    // 'typenameof' polymorph inside defer that appiles to return of polymorphic function
+    // was not working correctly. Now is fixed
+    defer printf("%s\n", typenameof $T)
+    printf("%s\n", typenameof $T)
+
+    value [10] $T
+    return value
+}
+
+struct Other ()
+
+func main {
+    thing <int> Thing
+    
+    value 10 int = __as__(thing) ~> 10 int
+}

@@ -1,0 +1,11 @@
+
+struct <$T> SharedPtr ()
+
+// This should raise an error, since the type 'Shared' doesn't even exist
+func __pass__(shared POD <$T> Shared) <$T> Shared {
+    return shared.clone()
+}
+
+func main {
+
+}

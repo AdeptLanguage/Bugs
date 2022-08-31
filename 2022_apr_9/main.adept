@@ -1,0 +1,26 @@
+
+pragma compiler_version '2.6'
+pragma default_stdlib '2.6'
+
+#if true
+// (override standard library clone(*<*$P> List) to show issue)
+func clone(this *<*$P> List) <*$P> List {
+    // For some reason, if we don't cast this,
+    // we get an incorrect error message
+
+    // (this call shouldn't be allowed, so idk why it's working)
+    //  - Isaac Shelton, August 27th 2022
+    // NOTE:
+    // Cannot replicate issue anymore, as original requires old 2.6 library and it seems
+    // to work fine in Adept 2.7 when using it
+    return list(
+        /*cast **$P*/ memcpy(malloc(sizeof *$P * this.length), this.items, sizeof *$P * this.length),
+        this.length,
+        this.length,
+        Ownership::OWN
+    )
+}
+#end
+
+// import basics
+import "../../../../AdeptProjects/JimmyPaysHisTaxes/main.adept"

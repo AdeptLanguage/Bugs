@@ -1,0 +1,16 @@
+
+import basics
+
+func main {
+    print(getArray()) // This should be an error
+}
+
+func getArray 10 $T {
+    result 10 $T
+    
+    repeat 10 {
+        result[idx] = idx as $T
+    }
+
+    return result
+}

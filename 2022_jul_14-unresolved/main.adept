@@ -1,0 +1,60 @@
+
+// This program will hang since we abuse the ability to create infinitely deeply nested
+// polymorphic types
+
+import basics
+
+class BaseBaseGreeter () {
+    constructor {}
+}
+
+class BaseGreeter extends BaseBaseGreeter() {
+    constructor {}
+}
+
+class Other extends BaseGreeter () {
+    constructor {}
+}
+
+
+class <$T> Greeter extends BaseGreeter () {
+    constructor() {}
+}
+
+class Unused extends <BaseGreeter> Greeter {
+    constructor {}
+}
+
+virtual func greet(this *<$T> Greeter, name String) {
+    print("Greetings " + name)
+}
+
+virtual func clear(this *<$T> HelloGreeter) {
+
+}
+
+class <$T> HelloGreeter extends <$T> Greeter (value $T) {
+    constructor() {}
+
+    override func greet(name String) {
+        print("Hi " + name)
+        this.clear()
+
+        // Error
+        // These lines cause the same method to be instantiated with a guaranteed different subject type
+        x *<<$T> HelloGreeter> HelloGreeter = new <<$T> HelloGreeter> HelloGreeter()
+        x.greet("Hi")
+        delete x
+    }
+}
+
+class <$T> XGreeter extends <$T> Greeter () {
+    constructor {}
+}
+
+func main {
+    greeter *<int> Greeter = new <int> HelloGreeter() as *<int> Greeter
+    defer delete greeter
+
+    greeter.greet("Isaac")
+}

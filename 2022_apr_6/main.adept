@@ -2,10 +2,8 @@
 #default no_print true
 
 #if no_print
-    // This should throw a compile-time error for not using va_start
     func print(_ $T, ...) void {}
 
-    // This should be recommended instead
     func print(_1 $T, _2 ...) void {}
 #end
 

@@ -1,0 +1,21 @@
+
+import basics
+
+// This does work
+func __pass__(value POD 18 $T) 18 $T {
+    return value
+}
+
+// Variable sized arrays are not allowed
+
+#define N 10
+
+func __pass__(value POD [#get N] $T) [#get N] $T {
+    print("hi")
+    return value
+}
+
+func main {
+    x 10 int = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
+    __pass__(x)
+}

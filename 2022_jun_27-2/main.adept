@@ -1,0 +1,21 @@
+
+import basics
+
+struct <$T> Thing(value $T)
+
+implicit func __as__(_thing <$T> Thing) [10] $T {
+    defer printf("%s\n", typenameof $T)
+    printf("%s\n", typenameof $T)
+
+    value [10] $T
+    return value
+}
+
+struct Other ()
+
+func main {
+    thing <int> Thing
+    
+    // Fixed issue: Why is __as__ being called twice?
+    array [10] int = thing
+}

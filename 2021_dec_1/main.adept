@@ -1,5 +1,10 @@
 pragma ignore_unused
 
+/*
+    This issue seems to have been fixed
+    - Isaac Shelton, June 29th 2022
+*/
+
 import basics
 
 func main {
