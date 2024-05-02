@@ -1,0 +1,15 @@
+
+import basics
+
+struct Bomb {
+    func __defer__ {
+        print("boom")
+    }
+}
+
+// BUG: __defer__ calls for fixed arrays are not being generated in the automatic implementation of __defer__ inside of structs
+struct CompoundBomb (bombs 10 Bomb)
+
+func main {
+    compound_bomb CompoundBomb
+}

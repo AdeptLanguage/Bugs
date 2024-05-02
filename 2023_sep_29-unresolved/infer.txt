@@ -1,0 +1,68 @@
+enum AnyTypeKind (VOID, BOOL, BYTE, UBYTE, SHORT, USHORT, INT, UINT, LONG, ULONG, FLOAT, DOUBLE, PTR, STRUCT, UNION, FUNC_PTR, FIXED_ARRAY, ENUM)
+struct Any (
+    type *AnyType,
+    placeholder ulong
+)
+struct AnyType (
+    kind AnyTypeKind,
+    name *ubyte,
+    is_alias bool,
+    size usize
+)
+struct AnyPtrType (
+    kind AnyTypeKind,
+    name *ubyte,
+    is_alias bool,
+    size usize,
+    subtype *AnyType
+)
+struct AnyFuncPtrType (
+    kind AnyTypeKind,
+    name *ubyte,
+    is_alias bool,
+    size usize,
+    args **AnyType,
+    length usize,
+    return_type *AnyType,
+    is_vararg bool,
+    is_stdcall bool
+)
+struct AnyCompositeType (
+    kind AnyTypeKind,
+    name *ubyte,
+    is_alias bool,
+    size usize,
+    members **AnyType,
+    length usize,
+    offsets *usize,
+    member_names **ubyte,
+    is_packed bool
+)
+struct AnyFixedArrayType (
+    kind AnyTypeKind,
+    name *ubyte,
+    is_alias bool,
+    size usize,
+    subtype *AnyType,
+    length usize
+)
+struct AnyEnumType (
+    kind AnyTypeKind,
+    name *ubyte,
+    is_alias bool,
+    size usize,
+    members **ubyte,
+    length usize
+)
+struct va_list (
+    _opaque ptr
+)
+__types__ **AnyType
+__type_kinds__ **ubyte
+__types_length__ usize
+__type_kinds_length__ usize
+func main() void {
+    box 100000 uint
+}
+alias AnyStructType = AnyCompositeType
+alias AnyUnionType = AnyCompositeType

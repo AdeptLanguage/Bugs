@@ -1,0 +1,17 @@
+
+#define String_log_deletion true
+import basics
+
+func main {
+    print(toString(getMessage()).myEscape(::BASIC, "\""))
+}
+
+func myEscape(this *String, escape_mode String\EscapeMode, quote String = "\"", surround bool = true) String {
+    print("Doing my escape")
+    return this.escape(escape_mode, quote, surround)
+}
+
+func getMessage() String {
+    return "A VB \n \t \" " + "\\ \b \f \""
+}
+

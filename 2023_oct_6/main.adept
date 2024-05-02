@@ -1,0 +1,11 @@
+
+import basics
+
+union X (value int)
+
+func main {
+    x X
+    x.value = 10
+    x = __pass__(x)
+    print(x.value)
+}

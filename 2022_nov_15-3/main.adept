@@ -1,0 +1,42 @@
+
+import basics
+
+class <$T> Color (r, g, b $T) {
+    constructor(r, g, b POD $T){
+        this.r = r
+        this.g = g
+        this.b = b
+    }
+
+    virtual func toString String {
+        return toString(this.r) + " " + toString(this.g) + " " + toString(this.b)
+    }
+}
+
+class <$T> MyColor extends <$T> Color () {
+    constructor(r, g, b POD $T) {
+        // (this as *<$T> Color).__constructor__(r, g, b) // this line
+
+        super(r, g, b)
+    }
+
+    override func toString String {
+        return sprintf("(%S, %S, %S)", toString(this.r), toString(this.g), toString(this.b))
+    }
+}
+
+func main {
+    {
+        color *<float> Color = new <float> MyColor(0.1, 0.2, 0.3)
+        defer delete color
+
+        print(color.toString())
+    }
+
+    {
+        color *<int> Color = new <int> Color(1, 3, 2)
+        defer delete color
+
+        print(color.toString())
+    }
+}

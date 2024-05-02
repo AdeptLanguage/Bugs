@@ -1,0 +1,44 @@
+
+pragma compiler_version '2.8'
+
+import basics
+import Unique
+
+class Shape (x int) {
+    constructor(value int = 21){
+        print("[shape constructor]")
+        this.x = value
+    }
+
+    virtual func getName String = "Shape"
+}
+
+class Circle extends Shape () {
+    constructor(){
+        super()
+        print("[circle constructor]")
+    }
+
+    override func getName String = "Circle"
+}
+
+class Rectangle extends Shape (w, h float) {
+    constructor(w, h float){
+        this.w = w
+        this.h = h
+    }
+
+    override func getName String = "Rectangle"
+}
+
+func main {
+    // UPDATE: Why is this being allowed???
+    shape <Shape> Unique = Unique(new Circle()) // For some reason, not having `as *Shape` caused compiler to exit with exit code of 1 with no error message
+
+    // UPDATE: Why is this being allowed???
+    a <String> Unique = Unique(new Circle())
+    b <Shape> Unique = "Hello World"
+
+    // print("Name is: " + shape.ref().getName(), "X is: " + shape.ref().x)
+    print("done")
+}

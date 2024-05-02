@@ -1,0 +1,8 @@
+
+import 'sys/cstdio.adept'
+
+enum LetterA (a, a, a, a) // This should result in an error
+
+func main {
+    printf('%d\n', LetterA::a as int)
+}

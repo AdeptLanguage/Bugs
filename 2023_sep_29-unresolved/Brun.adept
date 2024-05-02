@@ -1,0 +1,31 @@
+import basics
+import "2.8/cstdio.adept"
+
+func main() {
+	Brun()
+}
+
+func Brun() {
+	box [100000] uint = undef
+    memset(&box[0], 0, sizeof(box))
+    
+	N uint = 100000
+	for(i usize = 0; i < N; i++) {
+		box[i] = N - i
+		printf("%d", box[i])
+	}
+	printf("\n--------------------\n")
+	for(i usize = 0; i < N - 1; i++) {
+		for(j usize = 0; j < N - 1; j++) {
+			if(box[j] > box[j+1]) {
+				x uint = box[j]
+				box[j] = box[j+1]
+				box[j+1] = x
+			}
+		}
+	}
+	for(i usize = 0; i < N; i++) {
+		printf("%d", box[i])
+	}
+	printf("\n")
+}

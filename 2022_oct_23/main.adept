@@ -1,0 +1,32 @@
+
+// https://docs.microsoft.com/en-us/windows/win32/winprog/windows-data-types
+alias LRESULT = ptr
+alias LPSTR = *ubyte
+alias LPCSTR = *ubyte
+alias ULONG_PTR = *ulong
+alias WORD = ushort
+alias HWND = HANDLE
+alias HANDLE = ptr
+alias UINT = uint
+alias UINT_PTR = *uint
+alias WPARAM = *uint
+alias LPARAM = LONG_PTR
+alias LONG_PTR = long
+alias BOOL = int
+alias HINSTANCE = HANDLE
+alias HICON = HANDLE
+alias HCURSOR = HANDLE
+alias HMENU = HANDLE
+alias HBRUSH = HANDLE
+alias DWORD = uint
+alias ATOM = WORD
+alias LPCTSTR = *ubyte
+alias LPVOID = ptr
+
+// https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-createwindowexa
+// https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-createwindowa
+// Function alias parameter types were not having inference performed on them
+foreign CreateWindowExA  (DWORD, LPCSTR, LPCSTR, DWORD, int, int, int, int, HWND, HMENU, HINSTANCE, LPVOID) HWND
+func alias CreateWindowEx(DWORD, LPCSTR, LPCSTR, DWORD, int, int, int, int, HWND, HMENU, HINSTANCE, LPVOID) => CreateWindowExA
+
+func main {}

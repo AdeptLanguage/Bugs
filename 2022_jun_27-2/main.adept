@@ -17,5 +17,5 @@ func main {
     thing <int> Thing
     
     // Fixed issue: Why is __as__ being called twice?
-    array [10] int = thing
+    _array [10] int = thing
 }

@@ -1,0 +1,24 @@
+
+import 'sys/cstdio.adept'
+import String
+
+func main {
+    // Null terminated strings should have data after \0 preserved (useful for when interacting with win32)
+    filter1 *ubyte = 'All Files\0*.*\0Text Files\0*.txt\0'
+    filter2 String = "All Files\0*.*\0Text Files\0*.txt\0"
+
+    repeat 31, putcharOrShowNUL(filter1[idx])
+    putchar(0x0A)
+
+    repeat 31, putcharOrShowNUL(filter2.array[idx])
+    putchar(0x0A)
+}
+
+func putcharOrShowNUL(c ubyte){
+    if c {
+        putchar(c)
+    } else {
+        putchar('\\'ub)
+        putchar('0'ub)
+    }
+}

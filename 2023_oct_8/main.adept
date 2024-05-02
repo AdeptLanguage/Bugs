@@ -1,0 +1,10 @@
+
+struct _jvmtiCompiledMethodLoadRecordHeader (
+  kind int,     /* id for the kind of info passed in the record */
+  majorinfoversion int,  /* major and minor info version values. Init'ed */
+  minorinfoversion int,  /* to current version value in jvmtiExport.cpp. */
+
+  next *_jvmtiCompiledMethodLoadRecordHeader
+)
+
+// Before this would crash, now errors properly

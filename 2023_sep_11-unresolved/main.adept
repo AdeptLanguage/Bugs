@@ -1,0 +1,103 @@
+
+import assertions
+import 'sys/cstdio.adept'
+import 'sys/cstdlib.adept'
+import 'sys/cstring.adept'
+
+struct <$T> Vector (items *$T, length, capacity usize) {
+    func __defer__ {
+        each $T in [this.items, this.length], this.?__defer__()
+        delete this.items
+    }
+    
+    func __assign__(other <$T> Vector) {
+        this.__defer__()
+        *this = POD other
+    }
+
+    func __access__(index usize) *$T = &this.items[index]
+    func __array__ *$T = this.items
+    func __length__ usize = this.length
+
+    func makeRoomForNewElements(count usize) {
+        while this.length + count >= this.capacity {
+            this.capacity = this.capacity > 0 ? this.capacity * 2 : 8uz
+            this.items = realloc(this.items, this.capacity * sizeof $T)
+        }
+    }
+    
+    func append(item POD $T) {
+        this.makeRoomForNewElements(1)
+
+        // Zero new element memory
+        memset(this.items at this.length, 0, sizeof $T)
+        
+        // Copy item
+        this.items[this.length++] = item
+    }
+
+    func insert(index usize, item POD $T) {
+        assert index <= this.length
+
+        this.makeRoomForNewElements(1)
+
+        // Move items that are after rightward
+        memmove(this.items at (index + 1), this.items at index, sizeof $T * (this.length - index))
+
+        // Zero new element memory
+        memset(this.items at index, 0, sizeof $T)
+
+        // Copy item
+        this.items[index] = item
+        this.length++
+    }
+
+    func prepend(item POD $T) {
+        this.insert(0, item)
+    }
+}
+
+func __pass__(vector POD <$T> Vector) <$T> Vector {
+    new_vector POD <$T> Vector
+
+    each $T in vector {
+        new_vector.append(it)
+    }
+    
+    return new_vector
+}
+
+func main {
+    numbers <int> Vector
+    numbers.append(10)
+    numbers.append(11)
+    numbers.append(12)
+    numbers.append(14)
+    numbers.prepend(9)
+    numbers.insert(4, 13)
+
+    // 9 10 11 12 13 14
+
+    printf('numbers.items = 0x%08X\n', numbers.items)
+    each int in numbers {
+        printf('%d\n', it);
+    }
+
+    testPassingVectorToSeeIfCopied(numbers)
+    testPassingVectorViaPOD(numbers)
+}
+
+func testPassingVectorToSeeIfCopied(copied_vector <int> Vector){
+    printf('copied_vector.items = 0x%08X\n', copied_vector.items)
+
+    each int in copied_vector {
+        printf('%d\n', it);
+    }
+}
+
+func testPassingVectorViaPOD(raw_ <int> Vector){
+    printf('copied_vector.items = 0x%08X\n', copied_vector.items)
+
+    each int in copied_vector {
+        printf('%d\n', it);
+    }

@@ -1,0 +1,6 @@
+JSON.adept:354:32: error: Cannot test inequality for those types (<JSON> Optional and <JSON> Optional)
+  354|             if some(it.second) != b.get(it.first) {
+                                      ^^
+
+
+For some reason, polymorphic comparison is not instantiating polymorphic functions?

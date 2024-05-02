@@ -1,0 +1,8 @@
+fn main a0 -> s32
+    {1 BBs, 4 INSTRs, 1 VARs}
+    [0x00000000 [100000] u32]
+  BASICBLOCK |0|
+    0x00000000 var *[100000] u32 0x00000000
+    0x00000001 zi *[100000] u32 >|0| 0x00000000<
+    0x00000002 deinit_svars
+    0x00000003 ret s32 0
